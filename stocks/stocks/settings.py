@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,11 +57,20 @@ WSGI_APPLICATION = 'stocks.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'stocks',
+                'USER': 'stocks',
+                'PASSWORD': 'stocks',
+                'HOST': '',                                       # Set to empty string for localhost. Not used with sqlite3.
+                'PORT': '',                                       # Set to empty string for default. Not used with sqlite3.
+                'SUPPORTS_TRANSACTIONS': True,
+                'OPTIONS': {
+                        'init_command': 'SET storage_engine=INNODB',
+                }
+        },
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
