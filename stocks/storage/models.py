@@ -18,8 +18,10 @@ class News(models.Model):
 	url = models.CharField(max_length=500, verbose_name="News URL", null=False)
 	published_datetime = models.DateTimeField()
 
+	retweets = models.IntegerField(default=0)
+
 	def __unicode__(self):
-		return self.title
+		return self.title + " " + "(%s)" % self.retweets
 
 	class Meta:
 		verbose_name = "News"

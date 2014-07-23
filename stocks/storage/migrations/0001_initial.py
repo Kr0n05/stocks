@@ -23,17 +23,12 @@ class Migration(SchemaMigration):
             ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('url', self.gf('django.db.models.fields.CharField')(max_length=500)),
             ('published_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('retweets', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'storage', ['News'])
 
-        # Adding unique constraint on 'News', fields ['title', 'url', 'published_datetime']
-        db.create_unique(u'storage_news', ['title', 'url', 'published_datetime'])
-
 
     def backwards(self, orm):
-        # Removing unique constraint on 'News', fields ['title', 'url', 'published_datetime']
-        db.delete_unique(u'storage_news', ['title', 'url', 'published_datetime'])
-
         # Deleting model 'SourceFeed'
         db.delete_table(u'storage_sourcefeed')
 
@@ -43,9 +38,10 @@ class Migration(SchemaMigration):
 
     models = {
         u'storage.news': {
-            'Meta': {'unique_together': "(('title', 'url', 'published_datetime'),)", 'object_name': 'News'},
+            'Meta': {'object_name': 'News'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'published_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            'retweets': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'sourcefeed': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['storage.SourceFeed']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '500'})
